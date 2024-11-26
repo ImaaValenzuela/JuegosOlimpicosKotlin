@@ -36,10 +36,20 @@ class UserFragment : Fragment() {
 
         loadInfo()
 
+        binding.btnHistoryBuys.setOnClickListener {
+            historyBuys()
+        }
 
         binding.btnLogout.setOnClickListener{
             logout()
         }
+    }
+
+    private fun historyBuys() {
+        val transaction = parentFragmentManager.beginTransaction()
+        transaction.replace(R.id.fragmentFL, HistoryFragment()) // Asegúrate de que 'fragment_container' sea el ID correcto
+        transaction.addToBackStack(null) // Esto permite volver al fragmento anterior
+        transaction.commit()
     }
 
     private fun loadInfo() {
