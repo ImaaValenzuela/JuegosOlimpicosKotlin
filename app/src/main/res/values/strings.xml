@@ -44,6 +44,7 @@
     <string name="tv_tRegister">--</string>
 
     <!-- Evento  -->
+    <string name="txt_id">ID</string>
     <string name="txt_sport">Deporte</string>
     <string name="txt_place">Lugar</string>
     <string name="txt_date">Fecha y Hora</string>
@@ -61,5 +62,6 @@
 
     <!-- Pais  -->
     <string name="btn_buy">Comprar</string>
+    <string name="txt_buy">Comprar</string>
 
 </resources>

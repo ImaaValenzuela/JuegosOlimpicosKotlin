@@ -1,15 +1,19 @@
 package com.example.jjoo.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.jjoo.R
 import com.example.jjoo.data.Event
+import com.example.jjoo.event.EventActivity
 
 class EventAdapter(
     private val context: Context,
@@ -28,6 +32,7 @@ class EventAdapter(
     }
 
     // Enlaza los datos con las vistas
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val event = listEvent[position]
 
@@ -42,10 +47,21 @@ class EventAdapter(
             .load(event.sport.logo) // URL del logo
             .placeholder(R.drawable.ic_event) // Placeholder
             .into(holder.image) // Imagen del evento
+
+        holder.itemView.setOnClickListener {
+            val intent = Intent(context, EventActivity::class.java)
+            intent.putExtra("id", event.id.toString()) // Selecciono el ID del evento
+            Toast.makeText(
+                context,
+                "Has seleccionado ${holder.textSport.text}",
+                Toast.LENGTH_SHORT).show()
+            context.startActivity(intent)
+        }
     }
 
     // Clase ViewHolder para manejar las vistas
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val textId: TextView = itemView.findViewById(R.id.txt_id)
         val textSport: TextView = itemView.findViewById(R.id.txt_sport)
         val textPlace: TextView = itemView.findViewById(R.id.txt_place)
         val textDate: TextView = itemView.findViewById(R.id.txt_date)
