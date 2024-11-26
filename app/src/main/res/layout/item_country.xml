@@ -6,7 +6,7 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/item_countryview"
     android:layout_margin="12dp"
-    card_view:cardBackgroundColor = "@color/principal"
+    card_view:cardBackgroundColor = "@color/secondary"
     card_view:cardCornerRadius="20dp"
     card_view:cardElevation="6dp"
     card_view:contentPadding="4dp"
