@@ -8,14 +8,16 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.jjoo.R
+import com.example.jjoo.data.User
 import com.example.jjoo.data.tickets.TicketElite
 import com.example.jjoo.data.tickets.TicketPro
 import com.example.jjoo.data.tickets.TicketUltimateEvent
 import com.example.jjoo.data.tickets.Trade
 import com.example.jjoo.databinding.ActivityEventBinding
 import com.example.jjoo.repositories.EventRepository
-import com.example.jjoo.repositories.PurchaseRepository
+import com.example.jjoo.utils.CurrentUser
 import com.example.jjoo.utils.EventNotFoundException
+import com.example.jjoo.utils.PurchaseService
 
 class EventActivity : AppCompatActivity() {
 
@@ -39,21 +41,51 @@ class EventActivity : AppCompatActivity() {
             return
         }
 
+        // Cargar usuario activo desde CurrentUser
+        CurrentUser.loadUser(this)
+
+        // Verificar si hay un usuario activo
+        val user = CurrentUser.user
+        if (user == null) {
+            showError("No active user found. Please log in.")
+            return
+        }
+
         loadInfo()
         setupTicketSelection()
 
-
-        binding.IbBack.setOnClickListener {
-            onBackPressedDispatcher.onBackPressed() // No funciona
+        backButton.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
         }
 
-
         buyTicketButton.setOnClickListener {
-            // TODO: Implementar logica
+            buyTicket(user)
+        }
+    }
 
-            val selectedTicket = getSelectedTicket()
-            Toast.makeText(this, "Ticket Selected: $selectedTicket", Toast.LENGTH_SHORT).show()
+    private fun buyTicket(user: User) {
+        try {
+            // Obtener el tipo de ticket seleccionado
+            val selectedTicketId = when (binding.ticketTypeGroup.checkedRadioButtonId) {
+                R.id.ticket_type_pro -> 1
+                R.id.ticket_type_elite -> 2
+                R.id.ticket_type_ultimate -> 3
+                else -> throw IllegalArgumentException("No ticket type selected.")
+            }
+
+            // Realizar la compra
+            PurchaseService.buyTicket(user, id.toLong(), selectedTicketId)
+
+            // Mostrar un mensaje de éxito
+            Toast.makeText(this, "Ticket comprado exitosamente.", Toast.LENGTH_LONG).show()
+
+            // Finalizar actividad
             finish()
+        } catch (e: PurchaseService.InsufficientMoneyException) {
+            Toast.makeText(this, "Saldo insuficiente: ${e.message}", Toast.LENGTH_LONG).show()
+        } catch (e: Exception) {
+            Log.e("EventActivity", "Error al comprar ticket", e)
+            Toast.makeText(this, "Error al realizar la compra: ${e.message}", Toast.LENGTH_LONG).show()
         }
     }
 
@@ -119,7 +151,6 @@ class EventActivity : AppCompatActivity() {
     }
 
     private fun getSelectedTicket(): String {
-        // Aquí puedes agregar lógica para obtener el tipo de ticket seleccionado
         val radioGroup = binding.ticketTypeGroup
         return when (radioGroup.checkedRadioButtonId) {
             R.id.ticket_type_pro -> "Pro Ticket"
