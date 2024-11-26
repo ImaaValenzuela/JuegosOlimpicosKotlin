@@ -48,13 +48,18 @@
     <string name="txt_place">Lugar</string>
     <string name="txt_date">Fecha y Hora</string>
     <string name="txt_price">Precio</string>
+    <string name="txt_day">Dia</string>
+    <string name="txt_numberDay">Fecha</string>
+    <string name="txt_hour">Hora</string>
 
-    <!-- Evento  -->
+    <!-- Pais  -->
     <string name="item_country">Pais</string>
     <string name="item_gold">Oro</string>
     <string name="item_silver">Plata</string>
     <string name="item_bronze">Bronce</string>
 
 
+    <!-- Pais  -->
+    <string name="btn_buy">Comprar</string>
 
 </resources>
