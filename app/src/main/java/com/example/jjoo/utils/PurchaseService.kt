@@ -14,6 +14,7 @@ object PurchaseService {
     fun buyTicket(user: User, eventId: Long, ticketType: Int) {
         val event = EventRepository.getById(eventId) ?: throw NoSuchElementException("Event not found")
 
+    // Selección del tipo de ticket y creación del objeto Trade correspondiente
         val trade: Trade = when (ticketType) {
             1 -> TicketPro()
             2 -> TicketElite()
@@ -21,13 +22,20 @@ object PurchaseService {
             else -> throw IllegalArgumentException("Invalid ticket type")
         }
 
+    // Calcular el costo del ticket
         val cost = trade.tradeTicket(event)
+
+    // Verificar si el usuario tiene suficiente saldo
         if (user.money < cost) throw InsufficientMoneyException("Insufficient balance for this purchase.")
 
+    // Actualizar el saldo del usuario después de la compra
         user.money -= cost
         println("Purchase successful. Remaining balance: $${user.money}")
 
+    // Generar un asiento único para la compra
         val seat = generateUniqueSeat(event.id)
+
+    // Crear una nueva compra con los detalles correspondientes
         val purchase = Purchase(
             id = (PurchaseRepository.get().size + 1).toLong(),
             userId = user.id,
@@ -37,6 +45,8 @@ object PurchaseService {
             seat = seat ?: "N/A",
             hour = LocalTime.now()
         )
+
+    // Agregar la compra al repositorio de compras
         PurchaseRepository.add(purchase)
     }
 
