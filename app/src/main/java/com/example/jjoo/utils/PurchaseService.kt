@@ -58,7 +58,7 @@ object PurchaseService {
     fun listPurchasesByUserId(user: User) {
         val purchases = PurchaseRepository.get().filter { it.userId == user.id }
 
-        if (purchases.isNotEmpty()) {
+        /* if (purchases.isNotEmpty()) {
             println("Purchases for user: ${user.nickName}\n")
             purchases.forEach { purchase ->
                 println("""
@@ -74,7 +74,7 @@ object PurchaseService {
             }
         } else {
             println("No purchases found for user: ${user.nickName}")
-        }
+        }*/
     }
 
     class InsufficientMoneyException(message: String) : Exception(message)  // Excepción personalizada privada para el servicio de compras

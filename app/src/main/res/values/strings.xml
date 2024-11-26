@@ -60,8 +60,15 @@
     <string name="item_bronze">Bronce</string>
 
 
-    <!-- Pais  -->
+    <!-- Compras  -->
     <string name="btn_buy">Comprar</string>
     <string name="txt_buy">Comprar</string>
+
+    <!-- Tickets  -->
+    <string name="txt_eventId">EID</string>
+    <string name="txt_uid">UID</string>
+    <string name="txt_seat">Asiento</string>
+    <string name="txt_createdDate">Fecha de compra</string>
+    <string name="txt_amount">Precio Final</string>
 
 </resources>

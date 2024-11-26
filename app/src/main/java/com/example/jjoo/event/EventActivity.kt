@@ -14,6 +14,7 @@ import com.example.jjoo.data.tickets.TicketUltimateEvent
 import com.example.jjoo.data.tickets.Trade
 import com.example.jjoo.databinding.ActivityEventBinding
 import com.example.jjoo.repositories.EventRepository
+import com.example.jjoo.repositories.PurchaseRepository
 import com.example.jjoo.utils.EventNotFoundException
 
 class EventActivity : AppCompatActivity() {
@@ -49,6 +50,7 @@ class EventActivity : AppCompatActivity() {
 
         buyTicketButton.setOnClickListener {
             // TODO: Implementar logica
+
             val selectedTicket = getSelectedTicket()
             Toast.makeText(this, "Ticket Selected: $selectedTicket", Toast.LENGTH_SHORT).show()
             finish()
