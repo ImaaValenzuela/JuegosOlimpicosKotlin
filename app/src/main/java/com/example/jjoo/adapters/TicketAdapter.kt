@@ -35,7 +35,7 @@ class TicketAdapter(
     }
 
     // Enlaza los datos con las vistas
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "DefaultLocale")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val purchase = listTicket[position]
 
@@ -48,8 +48,7 @@ class TicketAdapter(
         holder.txtDate.text = "${event.date} - ${event.hour}"
         holder.txtSeat.text = purchase.seat
         holder.txtCreatedDate.text = purchase.createdDate
-        holder.txtAmount.text = "\$${purchase.amount}"
-
+        holder.txtAmount.text = "\$${String.format("%.2f", purchase.amount)}"
     }
 
     // Clase ViewHolder para manejar las vistas

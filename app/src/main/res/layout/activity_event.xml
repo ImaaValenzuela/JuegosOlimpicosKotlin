@@ -13,14 +13,6 @@
         android:id="@+id/toolbarRL"
         android:layout_width="match_parent"
         android:layout_height="55dp">
-
-        <ImageView
-            android:id="@+id/IbBack"
-            android:layout_centerVertical="true"
-            android:padding="10dp"
-            android:src="@drawable/ic_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
         
         <TextView
             android:id="@+id/txt_buy"
@@ -150,6 +142,18 @@
                 android:textAllCaps="true"
                 android:textStyle="bold"
                 android:backgroundTint="@color/principal"/>
+
+            <TextView
+                android:id="@+id/tv_cancel"
+                android:text="@string/tv_cancel"
+                android:textStyle="bold"
+                android:textColor="@color/principal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:textSize="10sp"
+                android:textAllCaps="true"/>
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

@@ -40,6 +40,8 @@
     <string name="tv_names">--</string>
     <string name="txt_username">Usuario: </string>
     <string name="tv_username">--</string>
+    <string name="txt_money">Dinero Disponible: </string>
+    <string name="tv_money">---------------</string>
     <string name="txt_tRegister">Miembro desde: </string>
     <string name="tv_tRegister">--</string>
 
@@ -63,6 +65,7 @@
     <!-- Compras  -->
     <string name="btn_buy">Comprar</string>
     <string name="txt_buy">Comprar</string>
+    <string name="tv_cancel">Cancelar Compra</string>
 
     <!-- Tickets  -->
     <string name="txt_eventId">EID</string>

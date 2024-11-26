@@ -14,6 +14,7 @@ import com.example.jjoo.data.tickets.TicketPro
 import com.example.jjoo.data.tickets.TicketUltimateEvent
 import com.example.jjoo.data.tickets.Trade
 import com.example.jjoo.databinding.ActivityEventBinding
+import com.example.jjoo.fragments.UserFragment
 import com.example.jjoo.repositories.EventRepository
 import com.example.jjoo.utils.CurrentUser
 import com.example.jjoo.utils.EventNotFoundException
@@ -32,7 +33,7 @@ class EventActivity : AppCompatActivity() {
         binding = ActivityEventBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        backButton = findViewById(R.id.IbBack)
+        // backButton = findViewById(R.id.IbBack)
         buyTicketButton = findViewById(R.id.buy_ticket_button)
 
         id = intent.getStringExtra("id") ?: ""
@@ -54,10 +55,17 @@ class EventActivity : AppCompatActivity() {
         loadInfo()
         setupTicketSelection()
 
-        backButton.setOnClickListener {
-            onBackPressedDispatcher.onBackPressed()
+        /* backButton.setOnClickListener {
+            Log.d("EventActivity", "Back button clicked")
+            finish()
         }
 
+        binding.IbBack.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        } */
+        binding.tvCancel.setOnClickListener{
+            finish()
+        }
         buyTicketButton.setOnClickListener {
             buyTicket(user)
         }
@@ -73,14 +81,36 @@ class EventActivity : AppCompatActivity() {
                 else -> throw IllegalArgumentException("No ticket type selected.")
             }
 
-            // Realizar la compra
-            PurchaseService.buyTicket(user, id.toLong(), selectedTicketId)
+            // Obtener el precio del evento
+            val event = EventRepository.getById(id.toLong())
+            val trade = when (selectedTicketId) {
+                1 -> TicketPro()
+                2 -> TicketElite()
+                3 -> TicketUltimateEvent()
+                else -> throw IllegalArgumentException("Invalid ticket type.")
+            }
 
-            // Mostrar un mensaje de éxito
-            Toast.makeText(this, "Ticket comprado exitosamente.", Toast.LENGTH_LONG).show()
+            val ticketPrice = trade.tradeTicket(event)
 
-            // Finalizar actividad
-            finish()
+            // Verificar si el usuario tiene suficiente saldo
+            if (user.money >= ticketPrice) {
+                // Realizar la compra
+                PurchaseService.buyTicket(user, id.toLong(), selectedTicketId)
+
+                // Restar el precio del ticket al dinero del usuario
+                user.money -= ticketPrice
+
+                // Actualizar los datos del usuario con el nuevo saldo
+                CurrentUser.setUser(this, user)
+
+                // Mostrar un mensaje de éxito
+                Toast.makeText(this, "Ticket comprado exitosamente.", Toast.LENGTH_LONG).show()
+
+                // Finalizar la actividad
+                finish()
+            } else {
+                throw PurchaseService.InsufficientMoneyException("Saldo insuficiente.")
+            }
         } catch (e: PurchaseService.InsufficientMoneyException) {
             Toast.makeText(this, "Saldo insuficiente: ${e.message}", Toast.LENGTH_LONG).show()
         } catch (e: Exception) {
@@ -89,6 +119,8 @@ class EventActivity : AppCompatActivity() {
         }
     }
 
+
+    @SuppressLint("SetTextI18n")
     private fun loadInfo() {
         try {
             val eventId = id.toLongOrNull()
@@ -105,7 +137,7 @@ class EventActivity : AppCompatActivity() {
                 txtDay.text = event.day.name
                 txtNumberDay.text = event.date
                 txtHour.text = event.hour.toString()
-                txtFinalPrice.text = event.price.toString()
+                txtFinalPrice.text = "Precio: $${event.price.toString()}"
             }
         } catch (e: EventNotFoundException) {
             showError(e.message ?: "Event not found.")
@@ -148,15 +180,5 @@ class EventActivity : AppCompatActivity() {
     private fun showError(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()
         finish()
-    }
-
-    private fun getSelectedTicket(): String {
-        val radioGroup = binding.ticketTypeGroup
-        return when (radioGroup.checkedRadioButtonId) {
-            R.id.ticket_type_pro -> "Pro Ticket"
-            R.id.ticket_type_elite -> "Elite Ticket"
-            R.id.ticket_type_ultimate -> "Ultimate Ticket"
-            else -> "No ticket selected"
-        }
     }
 }

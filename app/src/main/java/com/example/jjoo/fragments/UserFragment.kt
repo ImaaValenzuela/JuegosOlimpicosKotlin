@@ -1,5 +1,6 @@
 package com.example.jjoo.fragments
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -47,11 +48,12 @@ class UserFragment : Fragment() {
 
     private fun historyBuys() {
         val transaction = parentFragmentManager.beginTransaction()
-        transaction.replace(R.id.fragmentFL, HistoryFragment()) // Asegúrate de que 'fragment_container' sea el ID correcto
+        transaction.replace(R.id.fragmentFL, HistoryFragment())
         transaction.addToBackStack(null) // Esto permite volver al fragmento anterior
         transaction.commit()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun loadInfo() {
         // Cargar al usuario actual desde SharedPreferences
         CurrentUser.loadUser(mContext)
@@ -62,11 +64,13 @@ class UserFragment : Fragment() {
             binding.tvNames.text = "${currentUser.name} ${currentUser.surname}"
             binding.tvUsername.text = currentUser.nickName
             binding.tvTRegister.text = currentUser.createdDate
+            binding.tvMoney.text = "${currentUser.money}"
         } else {
             // Usuario no encontrado
             binding.tvNames.text = "Usuario no encontrado"
             binding.tvUsername.text = "N/A"
             binding.tvTRegister.text = "N/A"
+            binding.tvMoney.text = "0/0"
         }
     }
 
