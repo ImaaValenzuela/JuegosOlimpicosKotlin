@@ -1,0 +1,60 @@
+<resources>
+    <string name="app_name">jjoo</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Menu  -->
+    <string name="item_profile">Perfil</string>
+    <string name="item_buy">Comprar</string>
+    <string name="item_medalTable">Medallero</string>
+
+    <!-- Main  -->
+    <string name="tv_title">Titulo</string>
+
+    <!-- Opciones Login  -->
+    <string name="optionLogin">Iniciar Sesion</string>
+    <string name="optionRegister">Registrarse</string>
+
+    <!-- Login  -->
+    <string name="txt_login">Iniciar Sesion</string>
+    <string name="et_username">Usuario</string>
+    <string name="et_password">Contraseña</string>
+    <string name="btn_login">Ingresar</string>
+    <string name="txt_dontAccount">No tienes una cuenta?</string>
+    <string name="tv_register">Registrarme</string>
+
+
+    <!-- Registro  -->
+    <string name="txt_register">Registro</string>
+    <string name="et_name">Nombres</string>
+    <string name="et_surname">Apellidos</string>
+    <string name="et_Rpassword">Repita la Contraseña</string>
+    <string name="btn_register">Registrar</string>
+    <string name="txt_haveAccount">Ya tienes una cuenta?</string>
+    <string name="tv_login">Iniciar Sesion</string>
+
+    <!-- Perfil  -->
+    <string name="btn_historyBuys">Historial de Compras</string>
+    <string name="btn_logout">Cerrar Sesion</string>
+    <string name="txt_names">Nombre completo: </string>
+    <string name="tv_names">--</string>
+    <string name="txt_username">Usuario: </string>
+    <string name="tv_username">--</string>
+    <string name="txt_tRegister">Miembro desde: </string>
+    <string name="tv_tRegister">--</string>
+
+    <!-- Evento  -->
+    <string name="txt_sport">Deporte</string>
+    <string name="txt_place">Lugar</string>
+    <string name="txt_date">Fecha y Hora</string>
+    <string name="txt_price">Precio</string>
+
+    <!-- Evento  -->
+    <string name="item_country">Pais</string>
+    <string name="item_gold">Oro</string>
+    <string name="item_silver">Plata</string>
+    <string name="item_bronze">Bronce</string>
+
+
+
+</resources>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/item_profile"
+        android:title="@string/item_profile"
+        android:icon="@drawable/ic_profile"
+        android:iconTint="#D3C175"/>
+
+    <item
+        android:id="@+id/item_medalTable"
+        android:title="@string/item_medalTable"
+        android:icon="@drawable/ic_medal"
+        android:iconTint="#D3C175"/>
+
+    <item
+        android:id="@+id/item_buy"
+        android:title="@string/item_buy"
+        android:icon="@drawable/ic_buy"
+        android:iconTint="#D3C175"/>
+</menu>

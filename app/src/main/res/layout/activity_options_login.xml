@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".OptionsLoginActivity">
+
+    <ImageView
+        android:src="@drawable/ic_jjoo"
+        android:layout_width="160dp"
+        android:layout_height="160dp"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/optionLogin"
+        android:text="@string/optionLogin"
+        android:textStyle="bold"
+        android:textAllCaps="true"
+        android:layout_width="250dp"
+        android:layout_marginTop="35dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/principal"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/optionRegister"
+        android:text="@string/optionRegister"
+        android:textStyle="bold"
+        android:textAllCaps="true"
+        android:layout_width="250dp"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/principal"/>
+    
+</androidx.appcompat.widget.LinearLayoutCompat>
