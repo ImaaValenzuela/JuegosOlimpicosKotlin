@@ -34,6 +34,17 @@
             android:layout_marginStart="10dp"
             android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/txt_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/txt_id"
+                android:textAllCaps="true"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                android:visibility="gone"/>
+
             <!-- Deporte -->
             <TextView
                 android:id="@+id/txt_sport"
