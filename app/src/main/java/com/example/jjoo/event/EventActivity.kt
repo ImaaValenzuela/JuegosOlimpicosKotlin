@@ -73,7 +73,6 @@ class EventActivity : AppCompatActivity() {
 
     private fun buyTicket(user: User) {
         try {
-            // Obtener el tipo de ticket seleccionado
             val selectedTicketId = when (binding.ticketTypeGroup.checkedRadioButtonId) {
                 R.id.ticket_type_pro -> 1
                 R.id.ticket_type_elite -> 2
@@ -81,36 +80,17 @@ class EventActivity : AppCompatActivity() {
                 else -> throw IllegalArgumentException("No ticket type selected.")
             }
 
-            // Obtener el precio del evento
-            val event = EventRepository.getById(id.toLong())
-            val trade = when (selectedTicketId) {
-                1 -> TicketPro()
-                2 -> TicketElite()
-                3 -> TicketUltimateEvent()
-                else -> throw IllegalArgumentException("Invalid ticket type.")
-            }
+            // Realizar la compra
+            PurchaseService.buyTicket(user, id.toLong(), selectedTicketId)
 
-            val ticketPrice = trade.tradeTicket(event)
+            // Actualizar los datos del usuario con el nuevo saldo
+            CurrentUser.setUser(this, user)
 
-            // Verificar si el usuario tiene suficiente saldo
-            if (user.money >= ticketPrice) {
-                // Realizar la compra
-                PurchaseService.buyTicket(user, id.toLong(), selectedTicketId)
+            // Mostrar un mensaje de éxito
+            Toast.makeText(this, "Ticket comprado exitosamente.", Toast.LENGTH_LONG).show()
 
-                // Restar el precio del ticket al dinero del usuario
-                user.money -= ticketPrice
-
-                // Actualizar los datos del usuario con el nuevo saldo
-                CurrentUser.setUser(this, user)
-
-                // Mostrar un mensaje de éxito
-                Toast.makeText(this, "Ticket comprado exitosamente.", Toast.LENGTH_LONG).show()
-
-                // Finalizar la actividad
-                finish()
-            } else {
-                throw PurchaseService.InsufficientMoneyException("Saldo insuficiente.")
-            }
+            // Finalizar la actividad
+            finish()
         } catch (e: PurchaseService.InsufficientMoneyException) {
             Toast.makeText(this, "Saldo insuficiente: ${e.message}", Toast.LENGTH_LONG).show()
         } catch (e: Exception) {
