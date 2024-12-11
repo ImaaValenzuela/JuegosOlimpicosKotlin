@@ -19,7 +19,7 @@
         android:layout_height="165dp">
 
         <ImageView
-            android:id="@+id/iv_ticket"
+            android:id="@+id/iv_qr_ticket"
             android:src="@drawable/ic_jjoo"
             android:layout_width="100dp"
             android:layout_height="180dp"

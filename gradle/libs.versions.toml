@@ -1,6 +1,7 @@
 [versions]
 agp = "8.5.1"
 circleimageview = "3.1.0"
+core = "3.5.2"
 githubGlide = "4.16.0"
 kotlin = "1.9.0"
 coreKtx = "1.15.0"
@@ -13,10 +14,12 @@ activity = "1.9.3"
 constraintlayout = "2.2.0"
 passay = "1.6.1"
 gsonV = "2.8.8"
+zxingAndroidEmbedded = "4.3.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 circleimageview = { module = "de.hdodenhof:circleimageview", version.ref = "circleimageview" }
+core = { module = "com.google.zxing:core", version.ref = "core" }
 github-glide = { module = "com.github.bumptech.glide:glide", version.ref = "githubGlide" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
@@ -27,6 +30,7 @@ androidx-activity = { group = "androidx.activity", name = "activity", version.re
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 passay = { module = "org.passay:passay", version.ref = "passay" }
 gson = {group = "com.google.code.gson", name = "gson", version.ref = "gsonV"}
+zxing-android-embedded = { module = "com.journeyapps:zxing-android-embedded", version.ref = "zxingAndroidEmbedded" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

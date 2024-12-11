@@ -49,6 +49,8 @@ dependencies {
     implementation(libs.gson) // Uso de Json
     implementation (libs.circleimageview) // Vista de Imagenes Circulares
     implementation (libs.github.glide) // Manejo de imagenes
+    implementation(libs.core)
+    implementation(libs.zxing.android.embedded) // Muestra QR en android
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
