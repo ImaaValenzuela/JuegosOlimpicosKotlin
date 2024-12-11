@@ -73,5 +73,6 @@
     <string name="txt_seat">Asiento</string>
     <string name="txt_createdDate">Fecha de compra</string>
     <string name="txt_amount">Precio Final</string>
+    <string name="qr_code">qr</string>
 
 </resources>

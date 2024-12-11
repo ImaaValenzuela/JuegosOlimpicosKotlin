@@ -17,6 +17,7 @@ import com.example.jjoo.data.Purchase
 import com.example.jjoo.event.EventActivity
 import com.example.jjoo.repositories.EventRepository
 import com.example.jjoo.repositories.PurchaseRepository
+import com.example.jjoo.utils.GenerateQRCode
 
 class TicketAdapter(
     private val context: Context,
@@ -38,7 +39,6 @@ class TicketAdapter(
     @SuppressLint("SetTextI18n", "DefaultLocale")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val purchase = listTicket[position]
-
         val event = EventRepository.getById(purchase.eventId)
 
         // Asigna los valores a los TextView
@@ -49,6 +49,13 @@ class TicketAdapter(
         holder.txtSeat.text = purchase.seat
         holder.txtCreatedDate.text = purchase.createdDate
         holder.txtAmount.text = "\$${String.format("%.2f", purchase.amount)}"
+
+        // Genera el QR y lo asigna al ImageView
+        val qrCodeGenerator = GenerateQRCode()
+        val qrBitmap = qrCodeGenerator.generateQRCode(purchase.id.toString())
+        if (qrBitmap != null) {
+            holder.ivQrCode.setImageBitmap(qrBitmap)
+        }
     }
 
     // Clase ViewHolder para manejar las vistas
@@ -60,5 +67,6 @@ class TicketAdapter(
         val txtSeat: TextView = itemView.findViewById(R.id.txt_seat)
         val txtCreatedDate: TextView = itemView.findViewById(R.id.txt_createdDate)
         val txtAmount: TextView = itemView.findViewById(R.id.txt_amount)
+        val ivQrCode: ImageView = itemView.findViewById(R.id.iv_qr_ticket) // Nuevo QR
     }
 }
