@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.googleService)
 }
 
 android {
@@ -51,6 +52,9 @@ dependencies {
     implementation (libs.github.glide) // Manejo de imagenes
     implementation(libs.core)
     implementation(libs.zxing.android.embedded) // Muestra QR en android
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.auth)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

@@ -2,6 +2,7 @@
 agp = "8.5.1"
 circleimageview = "3.1.0"
 core = "3.5.2"
+firebaseBom = "33.7.0"
 githubGlide = "4.16.0"
 kotlin = "1.9.0"
 coreKtx = "1.15.0"
@@ -15,11 +16,15 @@ constraintlayout = "2.2.0"
 passay = "1.6.1"
 gsonV = "2.8.8"
 zxingAndroidEmbedded = "4.3.0"
+googleServiceV = "4.4.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 circleimageview = { module = "de.hdodenhof:circleimageview", version.ref = "circleimageview" }
 core = { module = "com.google.zxing:core", version.ref = "core" }
+firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
+firebase-auth = { module = "com.google.firebase:firebase-auth" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 github-glide = { module = "com.github.bumptech.glide:glide", version.ref = "githubGlide" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
@@ -35,4 +40,4 @@ zxing-android-embedded = { module = "com.journeyapps:zxing-android-embedded", ve
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-
+googleService = { id = "com.google.gms.google-services", version.ref = "googleServiceV"}
