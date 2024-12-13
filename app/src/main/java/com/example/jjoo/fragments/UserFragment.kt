@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import com.example.jjoo.OptionsLoginActivity
 import com.example.jjoo.R
 import com.example.jjoo.databinding.FragmentUserBinding
+import com.example.jjoo.repositories.UserRepository
 import com.example.jjoo.utils.CurrentUser
 
 class UserFragment : Fragment() {
@@ -55,23 +56,25 @@ class UserFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun loadInfo() {
-        // Cargar al usuario actual desde SharedPreferences
-        CurrentUser.loadUser(mContext)
+        // Suponiendo que tienes el ID del usuario actual guardado en SharedPreferences
+        val currentUserId = CurrentUser.user?.id ?: return
 
-        // Verificar si hay un usuario cargado
-        val currentUser = CurrentUser.user
-        if (currentUser != null) {
-            binding.tvNames.text = "${currentUser.name} ${currentUser.surname}"
-            binding.tvUsername.text = currentUser.nickName
-            binding.tvTRegister.text = currentUser.createdDate
-            binding.tvMoney.text = "${currentUser.money}"
-        } else {
-            // Usuario no encontrado
-            binding.tvNames.text = "Usuario no encontrado"
-            binding.tvUsername.text = "N/A"
-            binding.tvTRegister.text = "N/A"
-            binding.tvMoney.text = "0/0"
-        }
+        UserRepository.findById(currentUserId,
+            onSuccess = { user ->
+                if (user != null) {
+                    binding.tvNames.text = "${user.name} ${user.surname}"
+                    binding.tvUsername.text = user.nickName
+                    binding.tvTRegister.text = user.createdDate
+                    binding.tvMoney.text = "${user.money}"
+                } else {
+                    binding.tvNames.text = "Usuario no encontrado"
+                }
+            },
+            onFailure = { error ->
+                // Manejar error
+                binding.tvNames.text = "Error al cargar usuario: ${error.message}"
+            }
+        )
     }
 
     private fun logout() {

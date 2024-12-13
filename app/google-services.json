@@ -1,21 +1,22 @@
 {
   "project_info": {
-    "project_number": "597177009275",
-    "project_id": "chatv1-79807",
-    "storage_bucket": "chatv1-79807.appspot.com"
+    "project_number": "1090613610253",
+    "firebase_url": "https://jjoo2024-8f6e4-default-rtdb.firebaseio.com",
+    "project_id": "jjoo2024-8f6e4",
+    "storage_bucket": "jjoo2024-8f6e4.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:597177009275:android:62a0db05511c8c06660ede",
+        "mobilesdk_app_id": "1:1090613610253:android:7af836f2e13447059a9244",
         "android_client_info": {
-          "package_name": "com.example.chat"
+          "package_name": "com.example.jjoo"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDSPQrk2_1KevT5sG5SUdc3Y5MW_UiFIKg"
+          "current_key": "AIzaSyDpSRY442gBL30K72OVY9lKiNq0mjLJJX8"
         }
       ],
       "services": {

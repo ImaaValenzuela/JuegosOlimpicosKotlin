@@ -2,6 +2,8 @@ package com.example.jjoo
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.jjoo.data.User
 import com.example.jjoo.databinding.ActivityRegisterBinding
@@ -44,7 +46,7 @@ class RegisterActivity : AppCompatActivity() {
         password = binding.etPassword.text.toString().trim()
         Rpassword = binding.etRpassword.text.toString().trim()
 
-        // Validar cada campo secuencialmente y detenerse en el primer error
+        // Validar los campos locales primero
         if (name.isEmpty()) {
             binding.etName.error = "Ingrese nombre"
             binding.etName.requestFocus()
@@ -63,12 +65,24 @@ class RegisterActivity : AppCompatActivity() {
             return
         }
 
-        if (UserRepository.findByNickname(username) != null) {
-            binding.etUsername.error = "Nombre de Usuario en uso o inválido. Por favor ingrese uno nuevo"
-            binding.etUsername.requestFocus()
-            return
-        }
+        // Validar que el nombre de usuario no esté en uso (asíncronamente)
+        UserRepository.findByNickname(username, { user ->
+            if (user != null) {
+                binding.etUsername.error = "Nombre de Usuario en uso o inválido. Por favor ingrese uno nuevo"
+                binding.etUsername.requestFocus()
+                return@findByNickname
+            }
 
+            // Si el nombre de usuario no está en uso, validar la contraseña
+            validatePassword()
+        }, { error ->
+            // Manejar errores al intentar buscar el nombre de usuario
+            Log.e("ValidateInfo", "Error al buscar nombre de usuario: ${error.message}")
+            Toast.makeText(this, "Error al validar usuario. Intente de nuevo.", Toast.LENGTH_SHORT).show()
+        })
+    }
+
+    private fun validatePassword() {
         if (password.isEmpty()) {
             binding.etPassword.error = "Ingrese contraseña"
             binding.etPassword.requestFocus()
@@ -93,30 +107,33 @@ class RegisterActivity : AppCompatActivity() {
             return
         }
 
-        // Si todas las validaciones pasan, intenta registrar al usuario
+        // Si todas las validaciones pasan, registrar al usuario
         registerUser()
     }
 
     private fun registerUser() {
-        // Obtener la fecha actual en formato "yyyy/MM/dd"
         val dateFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd")
         val currentDate = LocalDate.now().format(dateFormatter)
 
         val user = User(
-            id = UserRepository.generateRandomId(),
+            id = (1000..9999).random().toLong(),
             nickName = username,
             password = password,
             name = name,
             surname = surname,
             createdDate = currentDate
         )
-        // Agrega el usuario al repositorio
-        UserRepository.add(user)
 
-        CurrentUser.user = user
-
-        // Referencia al menú principal
-        startActivity(Intent(applicationContext, MainActivity::class.java))
-        finishAffinity() // Se asegura que el usuario no puede regresar a la pantalla de registro
+        UserRepository.add(user,
+            onSuccess = {
+                CurrentUser.user = user
+                startActivity(Intent(applicationContext, MainActivity::class.java))
+                finishAffinity()
+            },
+            onFailure = { error ->
+                // Manejar error
+                binding.etUsername.error = "Error al registrar: ${error.message}"
+            }
+        )
     }
 }

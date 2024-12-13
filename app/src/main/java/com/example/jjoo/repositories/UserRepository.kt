@@ -1,57 +1,58 @@
 package com.example.jjoo.repositories
 
 import com.example.jjoo.data.User
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 
 object UserRepository {
 
-    private val users = mutableListOf<User>()
+    private val database = Firebase.database
+    private val userRef = database.getReference("users") // Nodo de usuarios en Firebase
 
-    init {
-        users.add(User(1504L, "bbayarri", "abc123", "Brian", "Bayarri", 3500000.50, "2022/12/10", "admin"))
-        users.add(User(2802L, "AHOZ", "lock_password", "Aylen", "Hoz", 200000.50, "2021/01/11", "admin"))
-        users.add(User(1510L, "Diegote", "12345", "Diego", "Gonzalez", 12000000.0, "2018/04/15", "admin"))
-    }
+    // Función para agregar un usuario a Firebase
+    fun add(user: User, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+        // Crear una clave única para el usuario usando 'push()' para evitar sobrescribir datos existentes
+        val userId = userRef.push().key
 
-
-    fun login(nickname: String, password: String): User? {
-        val user = users.find { it.nickName == nickname && it.password == password }
-        return user //TODO: Agregar manejo de intentos fallidos o bloqueo tras múltiples intentos
-    }
-
-
-    fun add(user: User) {
-        users.add(user)
-    }
-
-    fun remove(id: Long) {
-        val userToRemove = users.find { it.id == id }
-        if (userToRemove != null) {
-            users.remove(userToRemove)
-            println("User with ID $id has been removed.")
+        if (userId != null) {
+            // Guardamos el usuario bajo esta clave única
+            userRef.child(userId).setValue(user)
+                .addOnSuccessListener { onSuccess() }
+                .addOnFailureListener { onFailure(it) }
         } else {
-            println("User with ID $id not found.")
+            onFailure(Exception("Error al generar ID para el usuario"))
         }
     }
 
-    fun get(): List<User>{ // Agregamos un get
-        return users
+    // Función para eliminar un usuario de Firebase
+    fun remove(id: Long, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+        userRef.child(id.toString())
+            .removeValue()
+            .addOnSuccessListener { onSuccess() }
+            .addOnFailureListener { onFailure(it) }
     }
 
-    fun findByNickname(nickname: String): User?{ // Buscamos usuarios por nickname
-        return users.find { it.nickName == nickname }
+    // Función para encontrar un usuario por su ID
+    fun findById(id: Long, onSuccess: (User?) -> Unit, onFailure: (Exception) -> Unit) {
+        userRef.child(id.toString())
+            .get()
+            .addOnSuccessListener { snapshot ->
+                val user = snapshot.getValue(User::class.java)
+                onSuccess(user)
+            }
+            .addOnFailureListener { onFailure(it) }
     }
 
-    fun findById(id: Long): User?{ // Buscamos usuarios por id
-        return users.find { it.id == id }
+    // Función para encontrar un usuario por su nickname
+    fun findByNickname(nickname: String, onSuccess: (User?) -> Unit, onFailure: (Exception) -> Unit) {
+        userRef.orderByChild("nickName")
+            .equalTo(nickname)
+            .get()
+            .addOnSuccessListener { snapshot ->
+                val user = snapshot.children.firstOrNull()?.getValue(User::class.java)
+                onSuccess(user)
+            }
+            .addOnFailureListener { onFailure(it) }
     }
-
-    fun generateRandomId(): Long {
-        var id: Long
-        do {
-            id = (1000..9999).random().toLong() // Genera un ID aleatorio entre 1000 y 9999
-        } while (users.any { it.id == id }) // Asegura que sea único
-        return id
-    }
-
-
 }
